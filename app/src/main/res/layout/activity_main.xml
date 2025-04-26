@@ -111,6 +111,27 @@
             </RelativeLayout>
 
 
+        <RelativeLayout
+            android:layout_height="550dp"
+            android:layout_width="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/weather_card_back"
+            >
+            <ImageView
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginBottom="-155dp"
+                android:src="@drawable/sunrise03"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:alpha="0.4"
+                />
+        </RelativeLayout>
+
+
+
             <TextView
                 android:id="@+id/tvdate"
                 android:text="19 Dec 2023"
