@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Save this as sunrise_icon.xml inside res/drawable/ -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="100dp"
+    android:height="100dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+
+    <!-- Sun -->
+    <path
+        android:fillColor="#FFC107"
+        android:pathData="M12,4a1,1 0 0,1 1,1v3a1,1 0 0,1-2,0V5a1,1 0 0,1 1-1zm0,11a5,5 0 1,0-5-5,5,5 0 0,0 5,5z" />
+
+    <!-- Rays -->
+    <path
+        android:fillColor="#FF9800"
+        android:pathData="M4.22,5.64l1.42,1.42a1,1 0 1,1-1.42-1.42zm13.12,0a1,1 0 0,1 1.42,1.42l-1.42-1.42zM12,2a1,1 0 0,1 1,1v1a1,1 0 0,1-2,0V3a1,1 0 0,1 1-1zM2,12a1,1 0 0,1 1-1h1a1,1 0 0,1 0,2H3a1,1 0 0,1-1-1zm17,0a1,1 0 0,1 1-1h1a1,1 0 0,1 0,2h-1a1,1 0 0,1-1-1zM5.64,17.78a1,1 0 0,1 1.42-1.42l1.42,1.42a1,1 0 1,1-1.42,1.42l-1.42-1.42zm11.31-1.42a1,1 0 0,1 1.42,1.42l-1.42,1.42a1,1 0 0,1-1.42-1.42l1.42-1.42z" />
+
+    <!-- Horizon Line -->
+    <path
+        android:fillColor="#795548"
+        android:pathData="M2,20h20v2H2z" />
+
+</vector>

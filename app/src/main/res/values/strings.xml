@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Sun Time</string>
+    <string name="OpenDrawer">Open navigation drawer</string>
+    <string name="CloseDrawer">Close navigation drawer</string>
+</resources>

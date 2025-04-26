@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:id="@+id/drawerlayout"
+    tools:openDrawer="start"
+    >
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:title="Sun Time"
+                app:titleTextColor="#F5D7A5"
+                android:background="#333235"
+                app:navigationIcon="@drawable/baseline_menu_24"
+                app:navigationIconTint="#F5D7A5"
+                >
+
+            </com.google.android.material.appbar.MaterialToolbar>
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <!-- MAIN LAYOUT START -->
+
+        <!--android:background="#403B41"-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="?actionBarSize"
+            android:orientation="vertical"
+            android:paddingTop="20dp"
+            android:paddingLeft="20dp"
+            android:background="@color/dark_blue"
+            >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:layout_marginRight="20dp"
+                >
+                <LinearLayout
+                    android:id="@+id/llrefresh"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="5dp"
+                    android:paddingTop="3dp"
+                    android:paddingBottom="3dp"
+                    android:paddingRight="5dp"
+                    android:background="#49404B"
+                    >
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/baseline_cloud_sync_24"
+                        android:scaleType="fitXY"
+                        app:tint="@color/golden"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="20sp"
+                        android:textColor="#F5D7A5"
+                        android:text=" Refresh"
+                        />
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/lldropdown"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentRight="true"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="5dp"
+                    android:paddingTop="3dp"
+                    android:paddingBottom="3dp"
+                    android:paddingRight="5dp"
+                    android:background="#49404B"
+                    >
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/baseline_keyboard_arrow_down_24"
+                        android:scaleType="fitXY"
+                        app:tint="@color/golden"
+                        />
+                    <TextView
+                        android:id="@+id/tvlocation"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="20sp"
+                        android:textColor="#F5D7A5"
+                        android:text="Location"
+                        />
+                </LinearLayout>
+            </RelativeLayout>
+
+
+            <TextView
+                android:id="@+id/tvdate"
+                android:text="19 Dec 2023"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/golden"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                />
+
+            <LinearLayout
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                >
+                <!--<ImageView
+                    android:layout_height="35dp"
+                    android:layout_width="35dp"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/sunrise_big"
+                    app:tint="@color/golden"
+                    />-->
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_height="35dp"
+                    android:layout_width="35dp"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/sunrise_big"
+                    app:tint="@color/golden"
+                    />
+
+                <TextView
+                    android:id="@+id/tvrise"
+                    android:text="  :  6:35:21 AM"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/golden"
+                    android:textSize="18sp"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                >
+                <ImageView
+                    android:layout_height="35dp"
+                    android:layout_width="35dp"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/sunset"
+                    app:tint="@color/golden"
+                    />
+
+                <TextView
+                    android:id="@+id/tvset"
+                    android:text="  :  5:15:21 PM"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/golden"
+                    android:textSize="18sp"
+                    />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                >
+                <ImageView
+                    android:layout_height="35dp"
+                    android:layout_width="35dp"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/daylength"
+                    app:tint="@color/golden"
+                    />
+
+                <TextView
+                    android:id="@+id/tvlength"
+                    android:text="  :  10:40:52"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/golden"
+                    android:textSize="18sp"
+                    />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                >
+                <ImageView
+                    android:layout_height="35dp"
+                    android:layout_width="35dp"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/sun"
+                    app:tint="@color/golden"
+                    />
+
+                <TextView
+                    android:id="@+id/tvnoon"
+                    android:text="  :  11:55:21 AM"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/golden"
+                    android:textSize="18sp"
+                    />
+            </LinearLayout>
+
+            <!-- LAST UPDATE TIME DATE -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:orientation="horizontal"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Last Update: "
+                    android:textColor="@color/golden"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    />
+                <TextView
+                    android:id="@+id/tvlastupdate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Not updated"
+                    android:textColor="@color/golden"
+                    android:textSize="16sp"
+                    android:textStyle="bold|italic"
+                    />
+            </LinearLayout>
+
+
+<!--            ChatGpt    -->
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginTop="25dp"
+                android:src="@drawable/sunrise01" />
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginTop="25dp"
+                android:src="@drawable/sunrise02" />
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginTop="25dp"
+                android:src="@drawable/sunrise03" />
+
+<!--            Chatgpt end  -->
+
+
+
+            <!-- DATE FORMATTING -->
+            <ListView
+                android:id="@+id/listView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                />
+
+        </LinearLayout>
+        <!-- MAIN LAYOUT END -->
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <com.google.android.material.navigation.NavigationView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        app:menu="@menu/navigation_menu"
+        tools:layout_gravity="end"
+        app:headerLayout="@layout/nav_header"
+        />
+
+
+</androidx.drawerlayout.widget.DrawerLayout>

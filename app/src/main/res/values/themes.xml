@@ -1,0 +1,9 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.SolarSchedule" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">#403B41</item>
+        <item name="colorPrimaryDark">#403B41</item>
+    </style>
+
+    <style name="Theme.SolarSchedule" parent="Base.Theme.SolarSchedule" />
+</resources>
