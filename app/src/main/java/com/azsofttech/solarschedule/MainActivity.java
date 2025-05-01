@@ -1,26 +1,40 @@
 package com.azsofttech.solarschedule;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.location.Location;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Looper;
+import android.util.Log;
 import android.view.View;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.azsofttech.solarschedule.databinding.ActivityMainBinding;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -43,6 +57,18 @@ public class MainActivity extends AppCompatActivity {
     public static String REFRESH;
     String location;
     public static MyViewModel myViewModel;
+    FusedLocationProviderClient client;
+    LocationRequest locationRequest;
+    LocationCallback locationCallback;
+    private static long DEFAULT_LOCATION_UPDATE_INTERVAL = 10l;
+    private static long FAST_LOCATION_UPDATE_INTERVAL = 2l;
+    private static final int FINE_LOCATION_PERMISSION_REQUEST_CODE = 99;
+    int k = 0;
+    int z = 0;
+    boolean isRefreshTaskFinished; //PREVENTS MULTIPLE REFRESH CLICKS BEFORE EACH SUCCESSFUL LOCATION UPDATES
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +76,9 @@ public class MainActivity extends AppCompatActivity {
 
         binding = ActivityMainBinding.inflate( getLayoutInflater() );
         setContentView( binding.getRoot() );
+
+        isRefreshTaskFinished = true;
+        client = LocationServices.getFusedLocationProviderClient(this);
 
         initVarSetDrawer();
         showTimeList();
@@ -78,7 +107,8 @@ public class MainActivity extends AppCompatActivity {
         //REFRESH CLICK
         binding.llrefresh.setOnClickListener(v -> {
             //CHECK INTER CON
-            updateWidget();
+            if ( isRefreshTaskFinished ) updateWidget();
+            isRefreshTaskFinished = false;
             //IT TRIGGERS ON UPDATE
             //ON UPDATE CALLS VOLLEY HELPER
             //VOLLEY HELPER LOADS JSON AND SAVES IN SPREF->TRIGGERS INTERFACE METHOD FOR ON UPDATE->
@@ -86,9 +116,61 @@ public class MainActivity extends AppCompatActivity {
         });
 
         binding.lldropdown.setOnClickListener(dropdown -> showDropDownPopup( dropdown ));
+
+
+
     }
     //ONCREATE END >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     //////////////////////////////////////////////////////////
+    //LOCATION PERMISSION RESULT
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        switch ( requestCode ){
+            case FINE_LOCATION_PERMISSION_REQUEST_CODE:
+                if ( grantResults[0] == PackageManager.PERMISSION_GRANTED ){
+                    //updateGps();
+                    Toast.makeText(this, "Permission Granted", Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(this, "Need permission", Toast.LENGTH_SHORT).show();
+                }
+                break;
+        }
+    }
+    //##############################################################################################
+    //GET LOCATION ON EACH TIME REFRESH CLICK
+    private void getCurrentLocation(){
+
+        if (ContextCompat.checkSelfPermission( this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ){
+            locationRequest = LocationRequest.create();
+            locationRequest.setPriority( LocationRequest.PRIORITY_HIGH_ACCURACY);
+            locationRequest.setInterval(0);
+            locationCallback = new LocationCallback() {
+                @Override
+                public void onLocationResult(@NonNull LocationResult locationResult) {
+                    super.onLocationResult(locationResult);
+                    if ( locationResult == null ) return;
+                    Location locationValue = locationResult.getLastLocation(); //TODO:  rename location variable
+                    if ( locationValue != null ){
+                        //updateWidget();
+                        // TODO: pass location in this method
+                        //Geocoder geocoder = locationResult.geo //TODO: GET LOCATION NAME TO SHOW
+                        DecimalFormat df = new DecimalFormat("#.###");
+                        MainActivity.this.binding.suntimetext.setText( "Lat: "+df.format(locationValue.getLatitude())+"\nLong: "+df.format(locationValue.getLongitude()));
+                        //client.removeLocationUpdates( locationCallback ); //STOPS LOCATION UPDATE ON LOCATION DATA FETCHED
+                    }
+                    client.removeLocationUpdates( locationCallback );
+                    isRefreshTaskFinished = true;
+                }
+            };
+            client.requestLocationUpdates( locationRequest, locationCallback, Looper.getMainLooper() );
+        }else{
+            if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ){
+                requestPermissions( new String[]{ Manifest.permission.ACCESS_FINE_LOCATION }, FINE_LOCATION_PERMISSION_REQUEST_CODE  );
+            }
+        }
+    }
     //INIT VIEW SET DRAWER
     private void initVarSetDrawer(){
         spref = getSharedPreferences( SPREF_NAME, MODE_PRIVATE );
@@ -104,6 +186,7 @@ public class MainActivity extends AppCompatActivity {
     //////////////////////////////////////////////////////////
     //UPDATE DATA
     private void updateWidget(){
+        getCurrentLocation();
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(MainActivity.this);
         ComponentName componentName = new ComponentName(MainActivity.this, SolarWidgetProvider.class);
         Intent intent = new Intent(MainActivity.this, SolarWidgetProvider.class);

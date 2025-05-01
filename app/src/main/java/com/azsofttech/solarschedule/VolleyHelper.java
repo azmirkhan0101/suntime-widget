@@ -37,7 +37,9 @@ public class VolleyHelper {
         spref = context.getSharedPreferences( SPREF_NAME, context.MODE_PRIVATE );
         editor = spref.edit();
 
-        location = spref.getString( LOCATION_KEY, MIZMIZI );//DEFAULT LOCATION IS MIZMIZI
+        //DEFAULT LOCATION IS MIZMIZI
+        //TODO: parse location from SOLARWIDGETPROVIDER CLASS AND USE FOR VOLLEY REQUEST
+        location = spref.getString( LOCATION_KEY, MIZMIZI );
         if ( location.equals(NARAYANPUR) ){
             latitude = "23.8621";
             longitude = "90.9763";

@@ -1,0 +1,248 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+	android:orientation="vertical"
+	>
+
+
+<!--	android:background="@drawable/circle"-->
+<!--	android:backgroundTint="@color/dark_blue"-->
+<!--	android:paddingLeft="15dp"-->
+<!--	android:layout_marginStart="30dp"-->
+<!--	android:layout_marginTop="10dp"-->
+<!--	android:layout_marginEnd="30dp"-->
+
+	<RelativeLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:background="@drawable/weather_card_back">
+
+		<TextView
+			android:id="@+id/suntimetext"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_alignParentTop="true"
+			android:layout_marginStart="30dp"
+			android:layout_marginTop="30dp"
+			android:text="Sun Time"
+			android:textColor="#1C1C1C"
+			android:textSize="22sp"
+			android:textStyle="bold" />
+
+		<RelativeLayout
+			android:id="@+id/rlcardbuttons"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_below="@id/suntimetext"
+			android:layout_centerHorizontal="true"
+			android:layout_marginStart="30dp"
+			android:layout_marginTop="23dp"
+			android:layout_marginEnd="30dp">
+
+			<LinearLayout
+				android:id="@+id/llrefresh"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_alignParentStart="true"
+				android:background="@drawable/weather_card_button_back"
+				android:gravity="center_vertical"
+				android:orientation="horizontal"
+				android:paddingLeft="5dp"
+				android:paddingTop="3dp"
+				android:paddingRight="5dp"
+				android:paddingBottom="3dp">
+
+				<ImageView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:scaleType="fitXY"
+					android:src="@drawable/baseline_cloud_sync_24"
+					app:tint="#1C1C1C" />
+				<!--                    app:tint="@color/golden"-->
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text=" Refresh "
+					android:textColor="#1C1C1C"
+					android:textSize="16sp"/>
+			</LinearLayout>
+
+			<LinearLayout
+				android:id="@+id/lldropdown"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_alignParentEnd="true"
+				android:background="@drawable/weather_card_button_back"
+				android:gravity="center_vertical"
+				android:orientation="horizontal"
+				android:paddingLeft="5dp"
+				android:paddingTop="3dp"
+				android:paddingRight="5dp"
+				android:paddingBottom="3dp">
+
+				<ImageView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:scaleType="fitXY"
+					android:src="@drawable/baseline_keyboard_arrow_down_24"
+					app:tint="#1C1C1C" />
+
+				<TextView
+					android:id="@+id/tvlocation"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="Mizmizi "
+					android:textColor="#1C1C1C"
+					android:textSize="16sp" />
+			</LinearLayout>
+		</RelativeLayout>
+
+		<ImageView
+			android:layout_width="300dp"
+			android:layout_height="150dp"
+			android:layout_below="@id/lldatacontainer"
+			android:layout_marginTop="-40dp"
+			android:layout_centerHorizontal="true"
+			android:alpha="1"
+			android:src="@drawable/sunrise_half" />
+
+		<LinearLayout
+			android:id="@+id/lldatacontainer"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_below="@id/rlcardbuttons"
+			android:layout_marginTop="23dp"
+			android:orientation="vertical"
+			android:paddingStart="30dp">
+
+
+			<TextView
+				android:id="@+id/tvdate"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="27 Apr 2025"
+				android:textColor="#1C1C1C"
+				android:textSize="18sp"
+				android:textStyle="bold" />
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="10dp"
+				android:gravity="top"
+				android:orientation="horizontal">
+
+				<ImageView
+					android:layout_width="35dp"
+					android:layout_height="35dp"
+					android:adjustViewBounds="true"
+					android:scaleType="fitXY"
+					android:src="@drawable/sunrise"
+					app:tint="@color/golden" />
+
+				<TextView
+					android:id="@+id/tvrise"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginLeft="15dp"
+					android:text="Sunrise \n6:00 am"
+					android:textColor="#2C2C2C"
+					android:textSize="17sp" />
+			</LinearLayout>
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="10dp"
+				android:gravity="top"
+				android:orientation="horizontal">
+
+				<ImageView
+					android:layout_width="35dp"
+					android:layout_height="35dp"
+					android:adjustViewBounds="true"
+					android:scaleType="fitXY"
+					android:src="@drawable/sunset"
+					app:tint="@color/golden" />
+
+				<TextView
+					android:id="@+id/tvset"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginLeft="15dp"
+					android:text="Sunset \n7:00 pm"
+					android:textColor="#2C2C2C"
+					android:textSize="17sp" />
+			</LinearLayout>
+
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="10dp"
+				android:gravity="top"
+				android:orientation="horizontal">
+
+				<ImageView
+					android:layout_width="35dp"
+					android:layout_height="35dp"
+					android:adjustViewBounds="true"
+					android:scaleType="fitXY"
+					android:src="@drawable/daylength"
+					app:tint="@color/golden" />
+
+				<TextView
+					android:id="@+id/tvlength"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginLeft="15dp"
+					android:text="Day Length \n13 hr 23 min"
+					android:textColor="#2C2C2C"
+					android:textSize="17sp" />
+			</LinearLayout>
+
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="10dp"
+				android:gravity="top"
+				android:orientation="horizontal">
+
+				<ImageView
+					android:layout_width="35dp"
+					android:layout_height="35dp"
+					android:adjustViewBounds="true"
+					android:scaleType="fitXY"
+					android:src="@drawable/noon"
+					app:tint="@color/golden" />
+
+				<TextView
+					android:id="@+id/tvnoon"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginLeft="15dp"
+					android:text="Solar Noon \n12:15 pm"
+					android:textColor="#2C2C2C"
+					android:textSize="17sp" />
+			</LinearLayout>
+
+			<TextView
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="20dp"
+				android:gravity="center"
+				android:layout_marginLeft="15dp"
+				android:text="Last Updated     11:40 am"
+				android:textColor="#2C2C2C"
+				android:textSize="18sp" />
+
+
+		</LinearLayout>
+
+
+	</RelativeLayout>
+
+</LinearLayout>
