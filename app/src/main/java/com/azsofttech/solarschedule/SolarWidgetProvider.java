@@ -46,11 +46,11 @@ public class SolarWidgetProvider extends AppWidgetProvider
 	private static final String LOCATION_KEY = "location_key";
 	private static final String NARAYANPUR = "Narayanpur";
 	private static final String MIZMIZI = "Mizmizi";
-	String location;
 	String dateTime;
 	FusedLocationProviderClient client;
 	LocationRequest locationRequest;
 	LocationCallback locationCallback;
+	Location location;
 
 	@Override
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds)
@@ -86,13 +86,33 @@ public class SolarWidgetProvider extends AppWidgetProvider
 					public void onLocationResult(@NonNull LocationResult locationResult) {
 						super.onLocationResult(locationResult);
 						if ( locationResult == null ) return;
-						//TODO: RENAME LOCATION
-						Location location1 = locationResult.getLastLocation();
-						if ( location1 == null ) return;
+						//LOCATION AVAILABLE HERE
+						location = locationResult.getLastLocation();
+						if ( location == null ) return;
 						DecimalFormat df = new DecimalFormat();
-						Log.d( "WidgetLocationnnnnnnn", "Lat: "
-								+df.format(location1.getLatitude())
-								+"\nLong: "+df.format(location1.getLongitude()));
+//						Log.d( "WidgetLocationnnnnnnn", "Lat: "
+//								+df.format(location.getLatitude())
+//								+"\nLong: "+df.format(location.getLongitude()));
+						for ( int appWidgetId : appWidgetIds ){
+							solarModelArrayList = new ArrayList<>();
+							views = new RemoteViews( context.getPackageName(), R.layout.solar_widget_layout02);
+
+							Intent goMainIntent = new Intent( context, MainActivity.class );
+							PendingIntent goMainPi = PendingIntent.getActivity( context, 0, goMainIntent, PendingIntent.FLAG_IMMUTABLE );
+							views.setOnClickPendingIntent( R.id.tvrise, goMainPi );
+
+							VolleyHelper volleyHelper = new VolleyHelper(context, location);
+							volleyHelper.sendRequest(new DataSavedCallback() {
+								@Override
+								public void onComplete(String mesg) {
+									String gsonData = spref.getString(GSON_STRING_KEY, null);
+									if (gsonData != null) {
+										SolarWidgetProvider.this.setDataInViews(views, SolarWidgetProvider.this.getSolarModel(gsonData));
+										appWidgetManager.updateAppWidget(appWidgetId, views);
+									}
+								}
+							});
+						}
 						client.removeLocationUpdates( locationCallback );
 					}
 				};
@@ -100,28 +120,6 @@ public class SolarWidgetProvider extends AppWidgetProvider
 			}
 
 
-			location = spref.getString( LOCATION_KEY, MIZMIZI );
-
-			for ( int appWidgetId : appWidgetIds ){
-				solarModelArrayList = new ArrayList<>();
-				views = new RemoteViews( context.getPackageName(), R.layout.solar_widget_layout02);
-
-				Intent goMainIntent = new Intent( context, MainActivity.class );
-				PendingIntent goMainPi = PendingIntent.getActivity( context, 0, goMainIntent, PendingIntent.FLAG_IMMUTABLE );
-				views.setOnClickPendingIntent( R.id.tvrise, goMainPi );
-
-				VolleyHelper volleyHelper = new VolleyHelper(context);
-				volleyHelper.sendRequest(new DataSavedCallback() {
-                    @Override
-                    public void onComplete(String mesg) {
-                        String gsonData = spref.getString(GSON_STRING_KEY, null);
-                        if (gsonData != null) {
-                            SolarWidgetProvider.this.setDataInViews(views, SolarWidgetProvider.this.getSolarModel(gsonData));
-                            appWidgetManager.updateAppWidget(appWidgetId, views);
-                        }
-                    }
-                });
-			}
 		}
 	}
 
@@ -135,16 +133,18 @@ public class SolarWidgetProvider extends AppWidgetProvider
 	}
 
 	private void setDataInViews( RemoteViews views, SolarModel model ){//TODO: FETCH LOCATION NAME FROM LIVE GPS DATA
-
-		String dateAndLocation;
-		if ( location.equals(NARAYANPUR) ){
-			dateAndLocation = dateTime+" (NP)";
-		}else if ( location.equals(MIZMIZI) ){
-			dateAndLocation = dateTime+" (MZ)";
-		}else {//FARMGATE
-			dateAndLocation = dateTime+" (FG)";
-		}
-		views.setCharSequence( R.id.tvdate, "setText", dateAndLocation );
+		String dateAndLocation = null;
+		//TODO: A LOT OF TODO HERE
+//		if ( location.equals(NARAYANPUR) ){
+//			dateAndLocation = dateTime+" (NP)";
+//		}else if ( location.equals(MIZMIZI) ){
+//			dateAndLocation = dateTime+" (MZ)";
+//		}else {//FARMGATE
+//			dateAndLocation = dateTime+" (FG)";
+//		}
+		//views.setCharSequence( R.id.tvdate, "setText", dateAndLocation );
+		DecimalFormat df = new DecimalFormat("#.###");
+		views.setCharSequence( R.id.tvdate, "setText", "L"+df.format(location.getLatitude())+"\nN"+df.format(location.getLongitude()) );
 		views.setCharSequence( R.id.tvrise, "setText", "  :  "+model.getSunrise() );
 		views.setCharSequence( R.id.tvset, "setText", "  :  "+model.getSunset() );
 		views.setCharSequence( R.id.tvlength, "setText", "  :  "+model.getDaylength() );

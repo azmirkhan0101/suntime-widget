@@ -3,6 +3,8 @@ package com.azsofttech.solarschedule;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.location.Location;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -12,6 +14,7 @@ import com.google.gson.Gson;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -27,10 +30,10 @@ public class VolleyHelper {
     private static final String LOCATION_KEY = "location_key";
     private static final String NARAYANPUR = "Narayanpur";
     private static final String MIZMIZI = "Mizmizi";
-    String location,latitude,longitude;
-
-    public VolleyHelper(Context context) {
+    Location location;
+    public VolleyHelper(Context context, Location location) {
         this.context = context;
+        this.location = location;
     }
 
     public void sendRequest( DataSavedCallback dataSavedCallback ){
@@ -39,19 +42,20 @@ public class VolleyHelper {
 
         //DEFAULT LOCATION IS MIZMIZI
         //TODO: parse location from SOLARWIDGETPROVIDER CLASS AND USE FOR VOLLEY REQUEST
-        location = spref.getString( LOCATION_KEY, MIZMIZI );
-        if ( location.equals(NARAYANPUR) ){
-            latitude = "23.8621";
-            longitude = "90.9763";
-        }else if ( location.equals(MIZMIZI) ){
-            latitude = "23.6847";
-            longitude = "90.4949";
-        }else {//FARMGATE
-            latitude = "23.7605";
-            longitude = "90.3901";
-        }
+        //location = spref.getString( LOCATION_KEY, MIZMIZI );
+//        if ( location.equals(NARAYANPUR) ){
+//            latitude = "23.8621";
+//            longitude = "90.9763";
+//        }else if ( location.equals(MIZMIZI) ){
+//            latitude = "23.6847";
+//            longitude = "90.4949";
+//        }else {//FARMGATE
+//            latitude = "23.7605";
+//            longitude = "90.3901";
+//        }
 
-        String url = "https://api.sunrisesunset.io/json?lat="+latitude+"&lng="+longitude;
+        DecimalFormat df = new DecimalFormat("#.###");
+        String url = "https://api.sunrisesunset.io/json?lat="+df.format(location.getLatitude())+"&lng="+df.format(location.getLongitude());
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 parsedObject -> {
                     try {
@@ -84,8 +88,8 @@ public class VolleyHelper {
                             editor.putString( LAST_UPDATE_KEY, dateTime);
                             editor.apply();
 
-                            dataSavedCallback.onComplete( "Data is saved" );
-                            setDataToViewModel( gsonData );
+                        setDataToViewModel( gsonData );
+                        dataSavedCallback.onComplete( "Data is saved" );
 
                     } catch (JSONException e) {
                         throw new RuntimeException(e);
